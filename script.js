@@ -19,25 +19,53 @@ function playerPlay() {
     }
     return player;
 }
-
-// Variables to hold both selections
-let playerSelection = playerPlay();
-let computerSelection = computerPlay();
-
-// Function that 
-function game(playerSelection, computerSelection) {
-    let winner;
-    if (playerSelection === computerSelection) {
-        return (`Both selected ${computerSelection}. It's a Draw!`);
+// Function that plays the game
+function playRound(player, computer) {
+    let winner = undefined;
+    if (player === computer) {
+        return (`Both selected ${computer}. It's a Draw!`);
     }
-    if (playerSelection === 'rock') {
-        switch (computerSelection) {
+    if (player === 'rock') {
+        switch (computer) {
             case 'scissors':
-                return `Rock beats Scissors. Player Wins!`;
+                return (`Rock beats Scissors. Player Wins!`);
                 break;
             case 'paper':
-                return  `Paper beats Rock. Computer Wins.`;
+                return (`Paper beats Rock. Computer Wins.`);
+                break;
+        }
+    }
+
+    if (player === 'paper') {
+        switch (computer) {
+            case 'rock':
+                return ('Paper beats Rock. Player Wins!');
+                break;
+            case 'scissors':
+                return ('Scissors beats Paper. Computer Wins.');
+                break;
+
+        }
+    }
+
+    if (player === 'scissors') {
+        switch (computer) {
+            case 'rock':
+                return ('Rock beats Scissors. Computer Wins.');
+                break;
+            case 'paper':
+                return ('Scissors beats Paper. Player Wins!');
                 break;
         }
     }
 };
+
+// function game() {
+//     for (let i = 0; i < 5; i++) {
+//         let playerSelection = playerPlay();
+//         let computerSelection = computerPlay();
+//         console.log(playRound(playerSelection, computerSelection));
+//     }
+// }
+
+// game();
