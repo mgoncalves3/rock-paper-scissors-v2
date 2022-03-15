@@ -11,27 +11,48 @@ function computerPlay() {
     return playOptions[getRandomInt()];
 }
 
-// Makes sure player inputs a valid selection
-function playerPlay() {
-    let player = prompt("Let's play Rock, Paper, Scissors. Please make your choice.").toLowerCase();
-    while (!playOptions.includes(player)) {
-        player = prompt("Let's play Rock, Paper, Scissors. Please make your choice.").toLowerCase();
-    }
-    return player;
+let pScoreboard = document.getElementById("player-score");
+let cpuScoreboard = document.getElementById("computer-score");
+let desc = document.getElementById("game-desc");
+
+let playerWins = 0;
+let computerWins = 0;
+
+function resetGame() {
+    playerWins = 0, computerWins = 0;
+    pScoreboard.textContent = `${playerWins}`;
+    cpuScoreboard.textContent = `${computerWins}`;
+};
+
+function announceWinner() {
+
+    if (pScoreboard.textContent === '5') {
+        desc.textContent = `Player Won!`;
+        resetGame();
+    };
+
+    if (cpuScoreboard.textContent === '5') {
+        desc.textContent = `Computer Won!`;
+        resetGame();
+    };
 }
 // Function that plays the game
 function playRound(player, computer) {
-    let winner = undefined;
+
     if (player === computer) {
-        return (`Both selected ${computer}. It's a Draw!`);
+        desc.textContent = `Both selected ${computer}. It's a Draw!`;
     }
     if (player === 'rock') {
         switch (computer) {
             case 'scissors':
-                return (`Rock beats Scissors. Player Wins!`);
+                playerWins++;
+                pScoreboard.textContent = `${playerWins}`;
+                desc.textContent = `Rock beats Scissors. Player Wins!`;
                 break;
             case 'paper':
-                return (`Paper beats Rock. Computer Wins.`);
+                computerWins++;
+                cpuScoreboard.textContent = `${computerWins}`;
+                desc.textContent = `Paper beats Rock. Computer Wins.`;
                 break;
         }
     }
@@ -39,10 +60,14 @@ function playRound(player, computer) {
     if (player === 'paper') {
         switch (computer) {
             case 'rock':
-                return ('Paper beats Rock. Player Wins!');
+                playerWins++;
+                pScoreboard.textContent = `${playerWins}`;
+                desc.textContent = 'Paper beats Rock. Player Wins!';
                 break;
             case 'scissors':
-                return ('Scissors beats Paper. Computer Wins.');
+                computerWins++;
+                cpuScoreboard.textContent = `${computerWins}`;
+                desc.textContent = 'Scissors beats Paper. Computer Wins.';
                 break;
 
         }
@@ -51,14 +76,19 @@ function playRound(player, computer) {
     if (player === 'scissors') {
         switch (computer) {
             case 'rock':
-                return ('Rock beats Scissors. Computer Wins.');
+                computerWins++;
+                cpuScoreboard.textContent = `${computerWins}`;
+                desc.textContent = 'Rock beats Scissors. Computer Wins.';
                 break;
             case 'paper':
-                return ('Scissors beats Paper. Player Wins!');
+                playerWins++;
+                pScoreboard.textContent = `${playerWins}`;
+                desc.textContent = 'Scissors beats Paper. Player Wins!';
                 break;
         }
     }
 };
+
 
 // function game() {
 //     for (let i = 0; i < 5; i++) {
@@ -69,3 +99,16 @@ function playRound(player, computer) {
 // }
 
 // game();
+
+function play(e) {
+    playRound(e.target.id, computerPlay());
+    announceWinner();
+}
+
+
+let playerRock = document.getElementById("rock");
+playerRock.addEventListener("click", play);
+let playerPaper = document.getElementById("paper");
+playerPaper.addEventListener("click", play);
+let playerScissors = document.getElementById("scissors");
+playerScissors.addEventListener("click", play);
